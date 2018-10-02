@@ -1,0 +1,1 @@
+The code illustrates how kafka can be used in springboot app.

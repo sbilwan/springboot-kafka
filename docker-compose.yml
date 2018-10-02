@@ -1,0 +1,37 @@
+version: '3.1'
+networks:
+  kafka_net: null
+services:
+  confluent-kafka:
+    container_name: kafka
+    image: confluentinc/cp-kafka:5.0.0
+    ports:
+     - 29092:9092
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://confluent-kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - kafka_net
+    depends_on:
+      - zookeeper
+
+  zookeeper:
+    container_name: zookeeper
+    image: zookeeper:3.4
+    restart: always
+    ports:
+      - 32181:2181
+    environment:
+      ZOO_TICK_TIME: 4000
+    networks:
+      - kafka_net
+
+  orders_db:
+    container_name: ordersDB
+    image: postgres:10.5
+    restart: always
+    ports:
+      - 35433:5432
+    environment:
+      POSTGRES_PASSWORD: exectemp
