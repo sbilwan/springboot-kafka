@@ -29,9 +29,11 @@ services:
 
   orders_db:
     container_name: ordersDB
-    image: postgres:10.5
+    image: postgres:9.6
     restart: always
     ports:
-      - 35433:5432
+      - 5432:5432
     environment:
       POSTGRES_PASSWORD: exectemp
+      POSTGRES_DB: orders
+      POSTGRES_USER: postgres

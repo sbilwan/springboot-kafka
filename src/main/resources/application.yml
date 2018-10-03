@@ -1,0 +1,28 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      javax:
+        persistence:
+          schema-generation:
+            scripts:
+              create-target: create_init_ddl.sql
+  datasource:
+    url: jdbc:postgresql://localhost:5432/orders
+    username: postgres
+    password: exectemp
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      pool-name: order_con_poll
+      maximum-pool-size: 10
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+        type:
+          descriptor:
+            sql: trace
