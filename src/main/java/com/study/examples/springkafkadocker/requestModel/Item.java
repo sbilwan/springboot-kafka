@@ -1,25 +1,36 @@
 package com.study.examples.springkafkadocker.requestModel;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Objects;
 
-@Entity(name = "ITEM")
-public class Item extends AuditingDetails {
+@Entity
+@Table(name = "ITEM")
+public class Item extends AuditingDetails implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    //@Id
     private String itemId;
 
     private String itemDescription;
 
-    private BigDecimal itemPice;
+    private BigDecimal itemPrice;
 
     private LocalDate manufacturingDate;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    @JsonBackReference
     private Order order;
+
+    public Item() {}
 
     public Long getId() {
         return id;
@@ -45,12 +56,12 @@ public class Item extends AuditingDetails {
         this.itemDescription = itemDescription;
     }
 
-    public BigDecimal getItemPice() {
-        return itemPice;
+    public BigDecimal getItemPrice() {
+        return itemPrice;
     }
 
-    public void setItemPice(BigDecimal itemPice) {
-        this.itemPice = itemPice;
+    public void setItemPrice(BigDecimal itemPrice) {
+        this.itemPrice = itemPrice;
     }
 
     public LocalDate getManufacturingDate() {
@@ -61,12 +72,27 @@ public class Item extends AuditingDetails {
         this.manufacturingDate = manufacturingDate;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL)
     public Order getOrder() {
         return order;
     }
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if ( obj == this ) {
+            return true;
+        }
+        if ( obj instanceof Item) {
+            return this.id !=null && this.id.equals( ((Item) obj).id );
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this);
     }
 }

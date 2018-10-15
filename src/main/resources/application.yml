@@ -1,22 +1,23 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: none
     show-sql: true
     properties:
-      javax:
-        persistence:
-          schema-generation:
-            scripts:
-              create-target: create_init_ddl.sql
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL95Dialect
   datasource:
-    url: jdbc:postgresql://localhost:5432/orders
+    url: jdbc:postgresql://localhost:35433/orders
     username: postgres
     password: exectemp
     driver-class-name: org.postgresql.Driver
     hikari:
-      pool-name: order_con_poll
+      pool-name: order_con_pool
       maximum-pool-size: 10
+  flyway:
+    enabled: true
+    check-location: true
+    locations: classpath:/db_scripts
 
 logging:
   level:
@@ -26,3 +27,15 @@ logging:
         type:
           descriptor:
             sql: trace
+      springframework: trace
+      apache:
+        kafka: trace
+server:
+  port: 9999
+
+kafka:
+  ordertopic: kafka_orders
+  broker: localhost:29092
+
+
+

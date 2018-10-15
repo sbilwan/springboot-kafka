@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public  class AuditingDetails {
+public class AuditingDetails {
 
     @CreationTimestamp
     private LocalDateTime createdDateTime;
