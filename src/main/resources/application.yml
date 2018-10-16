@@ -18,6 +18,9 @@ spring:
     enabled: true
     check-location: true
     locations: classpath:/db_scripts
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
 
 logging:
   level:
@@ -29,13 +32,15 @@ logging:
             sql: trace
       springframework: trace
       apache:
-        kafka: trace
+        kafka: info
 server:
   port: 9999
 
 kafka:
   ordertopic: kafka_orders
-  broker: localhost:29092
+  broker: 0.0.0.0:9092
+  consumer:
+    groupid: orderconsumergroup
 
 
 
